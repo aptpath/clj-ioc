@@ -4,13 +4,13 @@ A Clojure library designed to provide inversion-of-control (IOC) in an idiomatic
 
 ## Rationale
 
-[Inversion-of-control (IOC)]((http://en.wikipedia.org/wiki/Inversion_of_control), aka dependcy injection (DI), is a very useful technique to provide
+[Inversion-of-control (IOC)](http://en.wikipedia.org/wiki/Inversion_of_control), aka dependcy injection (DI), is a very useful technique to provide
 change in functionality without the need to change coding.
 
 In Java, IOC is mostly done using Java interfaces, and Clojure does have the ability to
 use Java interface.
 
-However, the Protocol approach seems a bit heavy for simple IOC, but Protocols do offer a form of type safety (guard rails on the road) that `clj-ioc` does not (painted lines on the road).
+However, the Protocol approach seems a bit heavy for simple IOC, but Protocols do offer a form of type safety (guard rails on the road) that `clj-ioc` (painted lines on the road) does not.
 
 The `clj-ioc` library provides a light-weight, simple, and powerful mechanism for IOC.
 
