@@ -23,8 +23,8 @@
 (defn resolve-func
   "Returns a resolved function given a namespace and function name, if present.  If function doesn't exist, returns nil."
   [fns fname]
-  (require (symbol fns))
-  (resolve (symbol (str fns "/" (name fname)))))
+  (require (symbol (kws fns)))
+  (resolve (symbol (str (kws fns) "/" (kws fname)))))
 
 (defn nice-list
   "Returns a string of a given list of keywords/strings as strings separated by commas."
@@ -48,7 +48,7 @@
           :func-names ioc-func-names
           :funcs res
           :missing-funcs mfs}
-         (throw (RuntimeException. (str "Aborted IOC namespace assignment to '" ioc-ns
+         (throw (RuntimeException. (str "Aborted IOC namespace assignment to '" (kws ioc-ns)
                                         "' with required functions [" (nice-list ioc-func-names) "] due to missing function definitions ["
                                         (nice-list mfs) "]."))))
        {:ns ioc-ns
@@ -73,7 +73,7 @@
    optional :force? boolean (defaults to false) which will thrown an exception if one function is not defined in the namespace."
   ([ioc-key ioc-ns] (set-namespace! ioc-key ioc-ns false))
   ([ioc-key ioc-ns force?]
-   (let [lioc (-> @ioc-namespaces ioc-key)]
+   (let [lioc (@ioc-namespaces ioc-key)]
      (if lioc
        (do
          (swap! ioc-namespaces assoc ioc-key (ioc-ns-map ioc-ns (:func-names lioc) force?))

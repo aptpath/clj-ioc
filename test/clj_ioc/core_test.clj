@@ -5,7 +5,7 @@
 
 (deftest human
   (testing "Human..."
-    (indirect/set-namespace! "clj-ioc.demo.human")
+    (indirect/set-namespace! :clj-ioc.demo.human)
     (is (.equals "Homo sapien" (indirect/scientific-name)))
     (is (.equals "Hi." (indirect/greet)))
     (is (.equals "Hi." (indirect/hello)) "Called function in the IOC container namespace does not have to be same in the IOC namespace.")
