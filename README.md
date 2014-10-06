@@ -19,7 +19,7 @@ The `clj-ioc` library provides a simple, yet powerful, mechanism for IOC.
 ### Dependencies
 
 ```clojure
-[org.clojars.clj-ioc/clj-ioc "0.1.0"]
+[org.clojars.clj-ioc/clj-ioc "0.1.2"]
 ```
 
 ### Demo Namespaces
@@ -100,7 +100,7 @@ user=> (require '[clj-ioc.core :as ioc])
 nil
 user=> (require '[clj-ioc.demo.indirect :as indirect])
 nil
-user=> (indirect/set-namespace! "clj-ioc.demo.human")
+user=> (indirect/set-namespace! :clj-ioc.demo.human)
 {:ns "clj-ioc.demo.human", :func-names [:greet :scientific-name], :funcs {:scientific-name #'clj-ioc.demo.human/scientific-name, :greet #'clj-ioc.demo.human/greet}}
 user=> (indirect/greet)
 "Hi."
