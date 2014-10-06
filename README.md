@@ -24,7 +24,7 @@ The `clj-ioc` library provides a simple, yet powerful, mechanism for IOC.
 
 ### Demo Namespaces
 
-`indirect.clj`
+**indirect.clj**
 ```clojure
 (ns clj-ioc.demo.indirect
   (:require [clj-ioc.core :as ioc]))
@@ -58,7 +58,7 @@ The `clj-ioc` library provides a simple, yet powerful, mechanism for IOC.
 
 ```
 
-`human.clj`
+**human.clj**
 ```clojure
 (ns clj-ioc.demo.human)
 
@@ -71,7 +71,7 @@ The `clj-ioc` library provides a simple, yet powerful, mechanism for IOC.
   "Homo sapien")
 ```
 
-`dog.clj`
+**dog.clj**
 ```clojure
 (ns clj-ioc.demo.dog)
 
@@ -84,7 +84,7 @@ The `clj-ioc` library provides a simple, yet powerful, mechanism for IOC.
   "Canis lupus familiaris")
 ```
 
-`cat.clj`
+**cat.clj**
 ```clojure
 (ns clj-ioc.demo.cat)
 
