@@ -90,24 +90,3 @@
                               (name fkey) "' definition in namespace '" lns "' (" (str lns "/" (name fkey)) ") with "
                               (if (> (count args) 0) (str "arguments: " args) "no arguments")  "."))))))
 
-;; (register-ioc-namespace! :text "cmis.utils.text" [:kws :comp-key])
-
-;; (call :text :kws :freaknik)
-
-;; (set-namespace! :text "cmis.utils.scratch")
-
-;; (call :text :kws :freaknik)
-
-;; (call :greeter2 :greet "Wanda")
-;; (ioc-namespace! :greeter2 "scratch-ioc.logic.human" [:greet :freak])
-;; (set-namespace! :greeter2 "scratch-ioc.logic.dog" true)
-;; (call :greeter2 :greet "monkey")
-;; (set-namespace! :greeter2 "scratch-ioc.logic.cat" true)
-;; (call :greeter2 :greet "monkey")
-
-
-
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
