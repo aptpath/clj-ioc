@@ -4,15 +4,26 @@ A Clojure library designed to provide inversion-of-control (IOC) in an idiomatic
 
 ## Rationale
 
-Inversion-of-control (IOC),  aka dependcy injection (DI), is a very useful technique to provide
+[Inversion-of-control (IOC)]((http://en.wikipedia.org/wiki/Inversion_of_control), aka dependcy injection (DI), is a very useful technique to provide
 change in functionality without the need to change coding.
 
 In Java, IOC is mostly done using Java interfaces, and Clojure does have the ability to
-use Java interface (Protocols).
+use Java interface.
 
-However, the Protocol approach didn't seem idiomatic for Clojure.
+However, the Protocol approach seems a bit heavy for simple IOC, but Protocols do offer a form of type safety (guard rails on the road) that `clj-ioc` does not (painted lines on the road).
 
-The `clj-ioc` library provides a simple, yet powerful, mechanism for IOC.
+The `clj-ioc` library provides a light-weight, simple, and powerful mechanism for IOC.
+
+## IOC Uses
+
+IOC is useful in providing flexibility to any application, such as allowing for different
+database solutions for storing application data or allowing different authentication
+options, all without changing core application code.
+
+Another IOC use is to provide mock services while testing, such as eliminating the
+need for an external test database by mocking up an internal test harness database or
+any other external service that may not be available or convenient in the development,
+testing, and/or continuous integration (CI) environments.
 
 ## Usage
 
@@ -101,7 +112,7 @@ nil
 user=> (require '[clj-ioc.demo.indirect :as indirect])
 nil
 user=> (indirect/set-namespace! :clj-ioc.demo.human)
-{:ns "clj-ioc.demo.human", :func-names [:greet :scientific-name], :funcs {:scientific-name #'clj-ioc.demo.human/scientific-name, :greet #'clj-ioc.demo.human/greet}}
+{:ns :clj-ioc.demo.human, :func-names [:greet :scientific-name], :funcs {:scientific-name #'clj-ioc.demo.human/scientific-name, :greet #'clj-ioc.demo.human/greet}}
 user=> (indirect/greet)
 "Hi."
 user=> (indirect/greet "Abdul")
@@ -131,9 +142,13 @@ user=> (indirect/set-namespace! "clj-ioc.demo.human")
 user=> (indirect/greet)
 "Hi."
 ```
+## Resources
+
+### Links
+* [Inversion-of-Control (IOC)](http://en.wikipedia.org/wiki/Inversion_of_control)
 
 ## License
 
-Copyright © 2014 AptPath LLC
+Copyright © 2014 [AptPath LLC](http://aptpath.com)
 
-Distributed under the Eclipse Public License, the same as Clojure.
+Distributed under the Eclipse Public License, the same as [Clojure](http://clojure.org).
