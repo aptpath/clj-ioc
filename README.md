@@ -111,8 +111,8 @@ user=> (require '[clj-ioc.core :as ioc])
 nil
 user=> (require '[clj-ioc.demo.indirect :as indirect])
 nil
-user=> (indirect/set-namespace! :clj-ioc.demo.human)
-{:ns :clj-ioc.demo.human, :func-names [:greet :scientific-name], :funcs {:scientific-name #'clj-ioc.demo.human/scientific-name, :greet #'clj-ioc.demo.human/greet}}
+user=> (ioc/get-ioc-namespace :indirect)
+{:ns "clj-ioc.demo.human", :func-names [:greet :scientific-name], :funcs {:scientific-name #'clj-ioc.demo.human/scientific-name, :greet #'clj-ioc.demo.human/greet}}
 user=> (indirect/greet)
 "Hi."
 user=> (indirect/greet "Abdul")

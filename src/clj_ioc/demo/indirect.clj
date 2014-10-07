@@ -1,9 +1,9 @@
 (ns clj-ioc.demo.indirect
   (:require [clj-ioc.core :as ioc]))
 
-(def ioc-key :indirect)
-(def ioc-default-ns "clj-ioc.demo.human")
-(def ioc-func-names [:greet :scientific-name])
+(def ^{:private true} ioc-key :indirect)
+(def ^{:private true} ioc-default-ns "clj-ioc.demo.human")
+(def ^{:private true} ioc-func-names [:greet :scientific-name])
 
 ;; initialization of ioc key, ioc default namespace, and ioc allowed function names
 (ioc/register-ioc-namespace! ioc-key ioc-default-ns ioc-func-names true)
@@ -15,16 +15,19 @@
    (ioc/set-namespace! ioc-key ioc-ns force?)))
 
 (defn hello
+  "Function to show different function name is able to call an IOC function."
   ([] (hello nil))
   ([n]
    (ioc/call ioc-key :greet n)))
 
 (defn greet
+  "Function stub for calling :greet in the :indirect IOC mapping."
   ([] (greet nil))
   ([n]
    (ioc/call ioc-key :greet n)))
 
 (defn scientific-name
+  "Function stub for calling :scientific-name in the :indirect IOC mapping."
   []
   (ioc/call ioc-key :scientific-name))
 
