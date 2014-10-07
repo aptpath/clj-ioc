@@ -142,6 +142,65 @@ user=> (indirect/set-namespace! "clj-ioc.demo.human")
 user=> (indirect/greet)
 "Hi."
 ```
+
+## IOC Function Coverage
+
+There are a variety of functions in the clj-ioc core namespace to check for IOC function coverage.
+
+The best check is to register the namespace to an IOC key using a function name list and not force the registration if any functions are not resolvable (found) in the namespace.
+
+```clojure
+(ioc/register-ioc-namespace! :foo "clj-ioc.demo.cat" [:greet :scientific-name])
+```
+will thrown a `RuntimeException` since the namespace `clj-ioc-.demo.cat` does NOT define the function `scientific-name` and the optional `force?` fourth argument defaults to `false`.
+
+```clojure
+(ioc/register-ioc-namespace! :foo "clj-ioc.demo.cat" [:greet :scientific-name] true)
+```
+will allow the registration even though `clj-ioc.demo.cat` does not define the `scientific-name` function and will not thrown an exception since the `force?` fourth argument is set to `true`.
+
+However, now the `:foo` IOC namespace does not have complete coverage of the IOC functions and any call to the `:foo` IOC namespace via the `ioc/call` to the missing function (in this case `scientific-name`) will result in a thrown exception.
+
+It is best practices to *NOT* force registration of partial coverage namespaces (those namespaces without complete resolution of ALL IOC functions).
+
+## Testing IOC Function Coverage
+
+Testing for IOC functional coverage may be done by:
+
+```clojure
+(ioc/all-missing-functions)
+```
+
+If the function returns nil, then all registered IOC namespaces provide complete coverage for the registered function names.
+
+However, if a map is returned (keyed using the IOC key), then those IOC keyed namespace in the result map do NOT have complete IOC function coverage.
+
+Individual IOC registered IOC keys may be checked for missing functions:
+
+```clojure
+(ioc/missing-functions :ioc-key)
+```
+
+If the result is nil, the IOC key'd namespace has complete coverage (or the IOC key is not registered).  However, if the result is the registered map (with the resolved functions redacted), then the :missing-funcs vector holds the missing function names.
+
+## Retrieving IOC namespace mappings
+To get a map of mapped namespaces:
+
+```clojure
+(ioc/get-ioc-namespace mappings)
+```
+
+will result in `nil` if not IOC namespaces are registered.
+
+Or a map with the IOC key as the key and a string containing the mapped namespace as the value.
+
+For example, if the :indirect and :foo IOC keys have mapped IOC namespaces:
+
+```clojure
+{:indirect "clj-ioc.demo.human"
+ :foo "clj-ioc.demo.cat"}
+```
+
 ## Resources
 
 ### Links

@@ -50,7 +50,7 @@
          mfs (into [] missing-funcs)]
      (if-not (empty? missing-funcs)
        (if force?
-         {:ns ioc-ns
+         {:ns (kws ioc-ns)
           :func-names ioc-func-names
           :funcs res
           :resolved-funcs (vec- ioc-func-names mfs)
@@ -58,7 +58,7 @@
          (throw (RuntimeException. (str "Aborted IOC namespace assignment to '" (kws ioc-ns)
                                         "' with required functions [" (nice-list ioc-func-names) "] due to missing function definitions ["
                                         (nice-list mfs) "]."))))
-       {:ns ioc-ns
+       {:ns (kws ioc-ns)
         :func-names ioc-func-names
         :resolved-funcs ioc-func-names
         :funcs res}))))
@@ -73,7 +73,7 @@
   [ioc-key]
   (@ioc-namespaces ioc-key))
 
-(defn get-ioc-missing-funcs
+(defn- get-ioc-missing-funcs
   "Arguments:
     ioc-key (optional) - the IOC key for the IOC mapping missing function retrieval
                          if not nil, return only the missing functions info map for the ioc-key'd IOC mapping.
@@ -99,6 +99,22 @@
                 %)
              nil
              (keys @ioc-namespaces)))))
+
+(defn all-missing-functions
+  "Returns all IOC namespaces as maps with IOC keys as keys and list of missing function names.
+   If an IOC key has no missing functions (meaning the namespace has complete coverage of
+   the IOC functions), then the IOC key is not part of the result.
+   If the result is nil, then no registered IOC keys are missing any functions and there is
+   complete coverage of all registered IOC keys."
+  []
+  (get-ioc-missing-funcs))
+
+(defn missing-functions
+  "Returns a list of missing functions (not defined in the registered namespace) of the
+   registered ioc-key parameters.  Returns nil is the ioc-key doesn't exist in the
+  registry and/or if the ioc-key'd namespace has complete coverage of the IOC functions."
+  [ioc-key]
+  (get-ioc-missing-funcs ioc-key))
 
 (defn register-ioc-namespace!
   "Registers an IOC namespace given an :ioc-key, :ioc-seed-ns string namespace, :ioc-func-names list of function names as keywords, and
@@ -130,6 +146,18 @@
        (do
          (swap! ioc-namespaces assoc ioc-key (ioc-ns-map ioc-ns (:func-names lioc) force?))
          (ioc-key @ioc-namespaces))))))
+
+(defn get-ioc-namespace-mapping
+  "Returns the mapped namespace of the ioc-key parameter, nil if no mapping
+  for the provide ioc-key."
+  [ioc-key]
+  (:ns (@ioc-namespaces ioc-key)))
+
+(defn get-ioc-namespace-mappings
+  "Returns a mapping of all ioc-keys with the ioc-key as the key and the mapped namespace
+  as the value."
+  []
+  (reduce #(assoc % %2 (:ns (@ioc-namespaces %2))) nil (keys @ioc-namespaces)))
 
 (defn call
   "Calls IOC function for a given :ioc-key and :fkey function key, given the :args list of arguments."
