@@ -189,10 +189,10 @@ If the result is nil, the IOC key'd namespace has complete coverage (or the IOC 
 To get a map of mapped namespaces:
 
 ```clojure
-(ioc/get-ioc-namespace mappings)
+(ioc/get-ioc-namespace-mappings)
 ```
 
-will result in `nil` if not IOC namespaces are registered.
+will result in `nil` if no IOC namespaces are registered.
 
 Or a map with the IOC key as the key and a string containing the mapped namespace as the value.
 
