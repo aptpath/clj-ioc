@@ -63,17 +63,17 @@
         :resolved-funcs ioc-func-names
         :funcs res}))))
 
-(defn get-ioc-namespaces
+(defn mappings
   "Returns the current ioc-namespaces map."
   []
   @ioc-namespaces)
 
-(defn get-ioc-namespace
+(defn mapping
   "Returns the IOC namespace map for entry with ioc-key."
   [ioc-key]
   (@ioc-namespaces ioc-key))
 
-(defn- get-ioc-missing-funcs
+(defn- get-missing-funcs
   "Arguments:
     ioc-key (optional) - the IOC key for the IOC mapping missing function retrieval
                          if not nil, return only the missing functions info map for the ioc-key'd IOC mapping.
@@ -89,7 +89,7 @@
      :func-names - vector of function names
      :resolved-funcs - vector of resolved (successful) function names
      :missing-funcs - vector of missing function names."
-  ([] (get-ioc-missing-funcs nil))
+  ([] (get-missing-funcs nil))
   ([ioc-key]
    (if ioc-key
      (if (:missing-funcs (@ioc-namespaces ioc-key))
@@ -107,31 +107,41 @@
    If the result is nil, then no registered IOC keys are missing any functions and there is
    complete coverage of all registered IOC keys."
   []
-  (get-ioc-missing-funcs))
+  (get-missing-funcs))
 
 (defn missing-functions
   "Returns a list of missing functions (not defined in the registered namespace) of the
    registered ioc-key parameters.  Returns nil is the ioc-key doesn't exist in the
   registry and/or if the ioc-key'd namespace has complete coverage of the IOC functions."
   [ioc-key]
-  (get-ioc-missing-funcs ioc-key))
+  (get-missing-funcs ioc-key))
 
-(defn register-ioc-namespace!
+(defn coverage
+  "Convenience function that calls missing-functions [ioc-key]."
+  [ioc-key]
+  (missing-functions ioc-key))
+
+(defn coverages
+  "Convenience function that calls all-missing-functions []."
+  []
+  (all-missing-functions))
+
+(defn register-namespace!
   "Registers an IOC namespace given an :ioc-key, :ioc-seed-ns string namespace, :ioc-func-names list of function names as keywords, and
    optional :force? boolean (defaults to false) which will thrown an exception if one function is not defined in the namespace.
    If successful, returns the entire @ioc-namespaces atom map.
 
   Example:
-    (register-ioc-namespace! :storage :prj-name.store.mongo [:create :retrieve :update :delete] false)
+    (register-namespace! :storage :prj-name.store.mongo [:create :retrieve :update :delete] false)
     ;; register ioc mapping for ioc-key :storage and namespace :prj-name.store.mongo with IOC function names [:create :retrieve :update :delete]
     ;; and do not force? (false) to register if there are any functions in the function names list [:create :retrieve :update :delete] not resolvable
     ;; in the given namespace (:prj-name.store.mongo)."
-  ([ioc-key ioc-seed-ns ioc-func-names] (register-ioc-namespace! ioc-key ioc-seed-ns ioc-func-names false))
+  ([ioc-key ioc-seed-ns ioc-func-names] (register-namespace! ioc-key ioc-seed-ns ioc-func-names false))
   ([ioc-key ioc-seed-ns ioc-func-names force?]
    (let [res (ioc-ns-map ioc-seed-ns ioc-func-names force?)]
      (swap! ioc-namespaces assoc ioc-key res))))
 
-(defn unregister-ioc-namespace!
+(defn unregister-namespace!
   "Unregisters IOC namespace given the IOC key :ioc-key."
   [ioc-key]
   (swap! ioc-namespaces dissoc ioc-key))
@@ -147,13 +157,13 @@
          (swap! ioc-namespaces assoc ioc-key (ioc-ns-map ioc-ns (:func-names lioc) force?))
          (ioc-key @ioc-namespaces))))))
 
-(defn get-ioc-namespace-mapping
+(defn get-namespace
   "Returns the mapped namespace of the ioc-key parameter, nil if no mapping
   for the provide ioc-key."
   [ioc-key]
   (:ns (@ioc-namespaces ioc-key)))
 
-(defn get-ioc-namespace-mappings
+(defn get-namespaces
   "Returns a mapping of all ioc-keys with the ioc-key as the key and the mapped namespace
   as the value."
   []

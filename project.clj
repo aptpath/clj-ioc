@@ -1,4 +1,4 @@
-(defproject clj-ioc/clj-ioc "0.1.6"
+(defproject clj-ioc/clj-ioc "0.2.0"
   :description "Clojure Inversion-of-Control (IOC) library."
   :url "http://github.com/aptpath/clj-ioc"
   :license {:name "Eclipse Public License"
