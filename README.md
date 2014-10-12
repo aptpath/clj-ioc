@@ -118,7 +118,7 @@ user=> (require '[clj-ioc.core :as ioc])
 nil
 user=> (require '[clj-ioc.demo.dispatcher :as dispatcher])
 nil
-user=> (ioc/get-namespace :dispatcher)
+user=> (ioc/mapping :dispatcher)
 {:ns "clj-ioc.demo.human", :func-names [:greet :scientific-name], :funcs {:scientific-name #'clj-ioc.demo.human/scientific-name, :greet #'clj-ioc.demo.human/greet}}
 user=> (dispatcher/greet)
 "Hi."
@@ -168,7 +168,7 @@ will allow the registration even though `clj-ioc.demo.cat` does not define the `
 
 However, now the `:foo` IOC namespace does not have complete coverage of the IOC functions and any call to the `:foo` IOC namespace via the `ioc/call` to the missing function (in this case `scientific-name`) will result in a thrown exception.
 
-It is best practices to *NOT* force registration of partial coverage namespaces (those namespaces without complete resolution of ALL IOC functions).
+It is best practice to *NOT* force registration of partial coverage namespaces (those namespaces without complete resolution of ALL IOC functions).
 
 ## Testing IOC Function Coverage
 
