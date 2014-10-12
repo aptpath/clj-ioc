@@ -157,12 +157,12 @@ There are a variety of functions in the clj-ioc core namespace to check for IOC 
 The best check is to register the namespace to an IOC key using a function name list and not force the registration if any functions are not resolvable (found) in the namespace.
 
 ```clojure
-(ioc/register-ioc-namespace! :foo "clj-ioc.demo.cat" [:greet :scientific-name])
+(ioc/register-namespace! :foo "clj-ioc.demo.cat" [:greet :scientific-name])
 ```
-will throw a `RuntimeException` since the namespace `clj-ioc-.demo.cat` does NOT define the function `scientific-name` and the optional `force?` fourth argument defaults to `false`.
+will throw a `RuntimeException` since the namespace `clj-ioc.demo.cat` does NOT define the function `scientific-name` and the optional `force?` fourth argument defaults to `false`.
 
 ```clojure
-(ioc/register-ioc-namespace! :foo "clj-ioc.demo.cat" [:greet :scientific-name] true)
+(ioc/register-namespace! :foo "clj-ioc.demo.cat" [:greet :scientific-name] true)
 ```
 will allow the registration even though `clj-ioc.demo.cat` does not define the `scientific-name` function and will not throw an exception since the `force?` fourth argument is set to `true`.
 
