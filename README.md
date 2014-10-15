@@ -199,9 +199,21 @@ Individual IOC registered IOC keys may be checked for missing functions:
 
 If the result is `nil`, the IOC key'd namespace has complete coverage (or the IOC key is not registered).  However, if the result is the registered map (with the resolved functions redacted), then the `:missing-funcs` vector holds the missing function names.
 
+```clojure
+user=> (ioc/register-namespace! :foo "clj-ioc.demo.cat" [:greet :scientific-name])
+RuntimeException Aborted IOC namespace assignment to 'clj-ioc.demo.cat' with required functions [greet, scientific-name] due to missing function definitions [scientific-name].  clj-ioc.core/ioc-ns-map (core.clj:60)
+user=> (ioc/register-namespace! :foo "clj-ioc.demo.cat" [:greet :scientific-name] true)
+{:foo {:ns "clj-ioc.demo.cat", :func-names [:greet :scientific-name], :funcs {:scientific-name nil, :greet #'clj-ioc.demo.cat/greet}, :resolved-funcs [:greet], :missing-funcs [:scientific-name]}, :dispatcher {:ns "clj-ioc.demo.human", :func-names [:greet :scientific-name], :resolved-funcs [:greet :scientific-name], :funcs {:scientific-name #'clj-ioc.demo.human/scientific-name, :greet #'clj-ioc.demo.human/greet}}}
+user=> (ioc/coverage :foo)
+{:ns "clj-ioc.demo.cat", :func-names [:greet :scientific-name], :resolved-funcs [:greet], :missing-funcs [:scientific-name]}
+user=> (ioc/coverages)
+{:foo {:ns "clj-ioc.demo.cat", :func-names [:greet :scientific-name], :resolved-funcs [:greet], :missing-funcs [:scientific-name]}}
+```
+
 NOTE: `(ioc/coverages)` is the same call as `(ioc/all-missing-functions)`; and `(ioc/coverage :ioc-key)` is the same call as `(ioc/missing-functions :ioc-key)`.
 
 ## Getting IOC namespace mappings
+
 To get a map of mapped namespaces:
 
 ```clojure
