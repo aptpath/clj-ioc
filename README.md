@@ -25,6 +25,15 @@ need for an external test database by mocking up an internal test harness databa
 any other external service that may not be available or convenient in the development,
 testing, and/or continuous integration (CI) environments.
 
+## Performance
+
+The IOC function resolution occurs only during initial registration and any subsequent namespace
+changes.  Each IOC call to the functions are simple `apply` on the resolved functions with
+the arguments (if any).
+
+Some approaches do function resolutions dynamically (on every call) which is resource-intensive
+and unnecessary.
+
 ## Usage
 
 ### Dependencies
@@ -36,7 +45,7 @@ testing, and/or continuous integration (CI) environments.
 The previous clojars group `org.clojars.clj-ioc` is deprecated, please use the canonical `clj-ioc` form as shown above.
 
 ### Developer Notes
-* some function names were changed between 0.1.6 and 0.2.0 to be more consistent and concise
+* some function and demo names were changed between 0.1.6 and 0.2.0 to be more consistent and concise
 
 ### Demo Namespaces
 
@@ -152,7 +161,7 @@ user=> (dispatcher/greet)
 
 ## IOC Function Coverage
 
-There are a variety of functions in the clj-ioc core namespace to check for IOC function coverage.
+There are a variety of functions in the `clj-ioc` core namespace to check for IOC function coverage.
 
 The best check is to register the namespace to an IOC key using a function name list and not force the registration if any functions are not resolvable (found) in the namespace.
 
@@ -178,7 +187,7 @@ Testing for IOC functional coverage may be done by:
 (ioc/coverages)
 ```
 
-If the function returns nil, then all registered IOC namespaces provide complete coverage for the registered function names.
+If the function returns `nil`, then all registered IOC namespaces provide complete coverage for the registered function names.
 
 However, if a map is returned (keyed using the IOC key), then those IOC keyed namespace in the result map do NOT have complete IOC function coverage.
 
@@ -188,7 +197,7 @@ Individual IOC registered IOC keys may be checked for missing functions:
 (ioc/coverage :ioc-key)
 ```
 
-If the result is nil, the IOC key'd namespace has complete coverage (or the IOC key is not registered).  However, if the result is the registered map (with the resolved functions redacted), then the :missing-funcs vector holds the missing function names.
+If the result is `nil`, the IOC key'd namespace has complete coverage (or the IOC key is not registered).  However, if the result is the registered map (with the resolved functions redacted), then the `:missing-funcs` vector holds the missing function names.
 
 NOTE: `(ioc/coverages)` is the same call as `(ioc/all-missing-functions)`; and `(ioc/coverage :ioc-key)` is the same call as `(ioc/missing-functions :ioc-key)`.
 
@@ -203,7 +212,7 @@ will result in `nil` if no IOC namespaces are registered.
 
 Or a map with the IOC key as the key and a string containing the mapped namespace as the value.
 
-For example, if the :dispatcher and :foo IOC keys have mapped IOC namespaces:
+For example, if the `:dispatcher` and `:foo` IOC keys have mapped IOC namespaces:
 
 ```clojure
 {:dispatcher "clj-ioc.demo.human"
