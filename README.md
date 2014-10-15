@@ -30,10 +30,10 @@ testing, and/or continuous integration (CI) environments.
 ### Dependencies
 
 ```clojure
-[clj-ioc/clj-ioc "0.2.0"]
+[clj-ioc "0.2.0"]
 ```
 
-The previous clojars group `org.clojars.clj-ioc` is deprecated, please use the canonical `clj-ioc` group as shown above.
+The previous clojars group `org.clojars.clj-ioc` is deprecated, please use the canonical `clj-ioc` form as shown above.
 
 ### Developer Notes
 * some function names were changed between 0.1.6 and 0.2.0 to be more consistent and concise
