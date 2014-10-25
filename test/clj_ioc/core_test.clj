@@ -8,7 +8,7 @@
     (dispatcher/set-namespace! :clj-ioc.demo.human)
     (is (.equals "Homo sapien" (dispatcher/scientific-name)))
     (is (.equals "Hi." (dispatcher/greet)))
-    (is (.equals "Hix." (dispatcher/hello)) "Called function in the IOC container namespace does not have to be same in the IOC namespace.")
+    (is (.equals "Hi." (dispatcher/hello)) "Called function in the IOC container namespace does not have to be same in the IOC namespace.")
     (is (.equals "Hi, Jake." (dispatcher/greet "Jake")))))
 
 (deftest dog-test
