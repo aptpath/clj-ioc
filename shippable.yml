@@ -2,4 +2,6 @@ build_environment: ubuntu1404
 language: clojure
 lein: lein2
 install: lein protobuf install
-script: lein test
+script:
+  - cd clj-ioc
+  - lein test
